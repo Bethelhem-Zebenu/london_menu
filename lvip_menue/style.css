@@ -1,0 +1,263 @@
+/* RESET CSS */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* VARIABLES */
+:root {
+     background-color: #00060f;
+}
+
+/* GENERAL */
+body {
+    width: 100%;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: monospace, sans-serif;
+    font-size: 0.5rem;
+    transition: background-color 0.3s;
+    overflow-x: auto !important;
+    background-color: #00060f;
+}
+
+
+/* FLIP BOOK CORE ENGINE */
+#flip_book {
+    /* 100% VISUAL HEIGHT LAYOUT CONFIGURATION */
+    --book-height: 100dvh;
+    --book-width: calc(var(--book-height) * 0.71); /* Maintains standard book aspect ratio (approx 1:1.4) */
+    
+    --page-width: calc(var(--book-width) - 16px);
+    --page-height: calc(var(--book-height) - 32px);
+    --page-offset-top: 16px;
+
+    width: var(--book-width);
+    height: var(--book-height);
+    position: relative;
+    transition: transform 1s;
+    perspective: 2500px;
+}
+
+.front_cover,
+.back_cover {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px 8px 8px 4px;
+    background-image: url(./assets/images/lc-m/1.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+   
+    box-shadow: 0 0 20px 0 rgba(25, 25, 25, 0.35);
+}
+
+.front_cover {
+    position: absolute;
+    cursor: pointer;
+    transform-origin: center left;
+    transition: transform 0.5s;
+    z-index: 99;
+}
+
+.front_cover label {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    cursor: pointer;
+}
+
+.page {
+    width: var(--page-width);
+    height: var(--page-height);
+    position: absolute;
+    top: var(--page-offset-top);
+    left: 2px;
+    border-radius: 0 8px 8px 0;
+    background-color: white;
+    transform-origin: left;
+    transform-style: preserve-3d;
+    transform: rotateY(0deg);
+    transition-duration: 0.5s;
+}
+
+.front_page {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+}
+
+.front_page label {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    cursor: pointer;
+    z-index: 100;
+}
+
+.back_page {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+    transform: rotateY(180deg);
+    z-index: 100;
+}
+
+.back_page label {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    cursor: pointer;
+    z-index: 100;
+}
+
+.edge_shading {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 98;
+    object-fit: fill;
+}
+
+.front_content {
+    width: calc(100% - 1px);
+    height: calc(100% - 2px);
+    position: absolute;
+    top: 1px;
+    border-radius: 0 8px 8px 0;
+    z-index: 97;
+    object-fit: contain;
+}
+
+.back_content {
+    width: calc(100% - 1px);
+    height: calc(100% - 2px);
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    border-radius: 8px 0 0 8px;
+    z-index: 97;
+    object-fit: contain;
+}
+
+.back_cover {
+    position: relative;
+    z-index: -1;
+}
+
+/* STACKING ORDER */
+#page1 { z-index: 8; }
+#page2 { z-index: 7; }
+#page3 { z-index: 6; }
+#page4 { z-index: 5; }
+#page5 { z-index: 4; }
+#page6 { z-index: 3; }
+#page7 { z-index: 2; }
+#page8 { z-index: 1; }
+
+/* LAYOUT STRUCTURAL ANIMATION MECHANICS */
+#cover_checkbox:checked ~ #flip_book {
+    transform: translateX(calc(var(--book-width) / 2));
+}
+
+#cover_checkbox:checked ~ #flip_book .front_cover {
+    transform: rotateY(-180deg);
+    transition: transform 1.5s, z-index 0.5s 0.5s;
+    z-index: 1;
+}
+
+#cover_checkbox:checked ~ #flip_book #cover {
+    width: 80%;
+    height: 80%;
+    position: absolute;
+}
+
+#page1_checkbox:checked ~ #flip_book #page1 {
+    transform: rotateY(-180deg);
+    z-index: 9;
+}
+
+#page2_checkbox:checked ~ #flip_book #page2 {
+    transform: rotateY(-180deg);
+    z-index: 10;
+}
+
+#page3_checkbox:checked ~ #flip_book #page3 {
+    transform: rotateY(-180deg);
+    z-index: 11;
+}
+
+#page4_checkbox:checked ~ #flip_book #page4 {
+    transform: rotateY(-180deg);
+    z-index: 12;
+}
+
+#page5_checkbox:checked ~ #flip_book #page5 {
+    transform: rotateY(-180deg);
+    z-index: 13;
+}
+
+#page6_checkbox:checked ~ #flip_book #page6 {
+    transform: rotateY(-180deg);
+    z-index: 14;
+}
+
+#page7_checkbox:checked ~ #flip_book #page7 {
+    transform: rotateY(-180deg);
+    z-index: 15;
+}
+
+
+ /* back to top */ 
+
+.back-link {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+
+  padding: 10px 16px;
+
+  background: rgba(0,0,0,0.75);
+  color: #df760eb4;
+  text-decoration: none;
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  border-radius: 6px;
+
+  transition: background 0.3s ease;
+}
+
+.back-link:hover {
+  background: rgba(0,0,0,0.9);
+  color: #f68d04;
+}
+
+
+input {
+    display: none;
+}
+@media (max-width: 650px) {
+   
+    #cover_checkbox:checked ~ #flip_book {
+    
+        transform: none !important;
+      
+        transform: scale(0.65) translateX(100%) !important;
+        
+       
+        perspective-origin: 75% 50% !important;
+    }
+}
